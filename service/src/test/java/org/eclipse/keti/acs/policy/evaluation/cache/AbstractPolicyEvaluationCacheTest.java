@@ -29,15 +29,6 @@ import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.joda.time.DateTime;
-import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
 import org.eclipse.keti.acs.attribute.connector.management.AttributeConnectorService;
 import org.eclipse.keti.acs.attribute.connector.management.AttributeConnectorServiceImpl;
 import org.eclipse.keti.acs.model.Effect;
@@ -48,6 +39,14 @@ import org.eclipse.keti.acs.rest.AttributeConnector;
 import org.eclipse.keti.acs.rest.PolicyEvaluationRequestV1;
 import org.eclipse.keti.acs.rest.PolicyEvaluationResult;
 import org.eclipse.keti.acs.zone.management.dao.ZoneEntity;
+import org.joda.time.DateTime;
+import org.mockito.Mockito;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 public class AbstractPolicyEvaluationCacheTest {
 

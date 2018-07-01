@@ -20,13 +20,13 @@ package org.eclipse.keti.acs.monitoring;
 
 import org.eclipse.keti.acs.privilege.management.dao.GraphMigrationManager;
 import org.mockito.Mockito;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.springframework.boot.actuate.health.Status;
 import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.dao.QueryTimeoutException;
 import org.springframework.dao.TransientDataAccessResourceException;
 import org.springframework.jdbc.datasource.lookup.DataSourceLookupFailureException;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -56,8 +56,8 @@ public class AcsDbHealthIndicatorTest {
     public Object[][] statuses() {
         GraphMigrationManager happyMigrationManager = new GraphMigrationManager();
         GraphMigrationManager sadMigrationManager = new GraphMigrationManager();
-        Whitebox.setInternalState(happyMigrationManager, IS_MIGRATION_COMPLETE_FIELD_NAME, true);
-        Whitebox.setInternalState(sadMigrationManager, IS_MIGRATION_COMPLETE_FIELD_NAME, false);
+        ReflectionTestUtils.setField(happyMigrationManager, IS_MIGRATION_COMPLETE_FIELD_NAME, true);
+        ReflectionTestUtils.setField(sadMigrationManager, IS_MIGRATION_COMPLETE_FIELD_NAME, false);
 
         return new Object[][] { new Object[] { mockDbWithUp(), Status.UP, AcsMonitoringUtilities.HealthCode.AVAILABLE,
                 happyMigrationManager },
@@ -89,7 +89,9 @@ public class AcsDbHealthIndicatorTest {
 
     private AcsMonitoringRepository mockDbWithException(final Exception e) {
         AcsMonitoringRepository acsMonitoringRepository = Mockito.mock(AcsMonitoringRepository.class);
-        Mockito.doThrow(e).when(acsMonitoringRepository).queryPolicySetTable();
+        Mockito.doAnswer(invocation -> {
+            throw e;
+        }).when(acsMonitoringRepository).queryPolicySetTable();
         return acsMonitoringRepository;
     }
 }

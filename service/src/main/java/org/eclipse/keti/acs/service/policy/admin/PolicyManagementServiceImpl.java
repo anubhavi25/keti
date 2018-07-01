@@ -26,11 +26,6 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.eclipse.keti.acs.commons.exception.UntrustedIssuerException;
 import org.eclipse.keti.acs.model.PolicySet;
 import org.eclipse.keti.acs.policy.evaluation.cache.PolicyEvaluationCache;
@@ -41,6 +36,10 @@ import org.eclipse.keti.acs.service.policy.validation.PolicySetValidator;
 import org.eclipse.keti.acs.utils.JsonUtils;
 import org.eclipse.keti.acs.zone.management.dao.ZoneEntity;
 import org.eclipse.keti.acs.zone.resolver.ZoneResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author acs-engineers@ge.com

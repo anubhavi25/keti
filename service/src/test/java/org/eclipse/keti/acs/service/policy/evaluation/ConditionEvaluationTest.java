@@ -24,15 +24,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.mockito.internal.util.reflection.Whitebox;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
 import org.eclipse.keti.acs.commons.policy.condition.groovy.GroovyConditionCache;
 import org.eclipse.keti.acs.commons.policy.condition.groovy.GroovyConditionShell;
 import org.eclipse.keti.acs.model.Attribute;
@@ -41,6 +32,14 @@ import org.eclipse.keti.acs.rest.BaseResource;
 import org.eclipse.keti.acs.rest.BaseSubject;
 import org.eclipse.keti.acs.service.policy.validation.PolicySetValidator;
 import org.eclipse.keti.acs.service.policy.validation.PolicySetValidatorImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 /**
  *
@@ -64,7 +63,7 @@ public class ConditionEvaluationTest extends AbstractTestNGSpringContextTests {
     public void testConditionEvaluationWithConstants(final List<Condition> conditions, final boolean expectedResult,
             final boolean throwsException) {
         PolicyEvaluationServiceImpl evaluationService = new PolicyEvaluationServiceImpl();
-        Whitebox.setInternalState(evaluationService, "policySetValidator", this.policySetValidator);
+        ReflectionTestUtils.setField(evaluationService, "policySetValidator", this.policySetValidator);
         Set<Attribute> subjectAttributes = Collections.emptySet();
         try {
             Assert.assertEquals(evaluationService.evaluateConditions(subjectAttributes, new HashSet<>(), "",
@@ -111,7 +110,7 @@ public class ConditionEvaluationTest extends AbstractTestNGSpringContextTests {
         subject.setAttributes(subjectAttributes);
 
         PolicyEvaluationServiceImpl evaluationService = new PolicyEvaluationServiceImpl();
-        Whitebox.setInternalState(evaluationService, "policySetValidator", this.policySetValidator);
+        ReflectionTestUtils.setField(evaluationService, "policySetValidator", this.policySetValidator);
 
         try {
             Assert.assertEquals(evaluationService.evaluateConditions(subjectAttributes, resourceAttributes, resourceURI,

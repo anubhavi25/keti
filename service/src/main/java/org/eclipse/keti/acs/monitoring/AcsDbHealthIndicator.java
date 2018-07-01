@@ -18,6 +18,7 @@
 
 package org.eclipse.keti.acs.monitoring;
 
+import org.eclipse.keti.acs.privilege.management.dao.GraphMigrationManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,6 @@ import org.springframework.dao.QueryTimeoutException;
 import org.springframework.dao.TransientDataAccessResourceException;
 import org.springframework.jdbc.datasource.lookup.DataSourceLookupFailureException;
 import org.springframework.stereotype.Component;
-
-import org.eclipse.keti.acs.privilege.management.dao.GraphMigrationManager;
 
 @Component
 public class AcsDbHealthIndicator implements HealthIndicator {

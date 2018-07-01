@@ -31,11 +31,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.eclipse.keti.acs.attribute.readers.AttributeRetrievalException;
 import org.eclipse.keti.acs.commons.policy.condition.ConditionAssertionFailedException;
 import org.eclipse.keti.acs.commons.policy.condition.ConditionScript;
@@ -62,6 +57,10 @@ import org.eclipse.keti.acs.service.policy.validation.PolicySetValidationExcepti
 import org.eclipse.keti.acs.service.policy.validation.PolicySetValidator;
 import org.eclipse.keti.acs.zone.management.dao.ZoneEntity;
 import org.eclipse.keti.acs.zone.resolver.ZoneResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 @SuppressWarnings({ "javadoc", "nls" })

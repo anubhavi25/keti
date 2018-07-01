@@ -20,19 +20,18 @@ package org.eclipse.keti.acs.policy.evaluation.cache;
 
 import static org.eclipse.keti.acs.testutils.XFiles.AGENT_MULDER;
 import static org.eclipse.keti.acs.testutils.XFiles.XFILES_ID;
-import static org.mockito.internal.util.reflection.Whitebox.getInternalState;
 import static org.testng.Assert.assertEquals;
 
 import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.joda.time.DateTime;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Test;
-
 import org.eclipse.keti.acs.model.Effect;
 import org.eclipse.keti.acs.rest.PolicyEvaluationRequestV1;
 import org.eclipse.keti.acs.rest.PolicyEvaluationResult;
+import org.joda.time.DateTime;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
 
 public class InMemoryPolicyEvaluationCacheTest {
 
@@ -60,7 +59,7 @@ public class InMemoryPolicyEvaluationCacheTest {
         String value = OBJECT_MAPPER.writeValueAsString(result);
         this.cache.set(key.toDecisionKey(), value);
 
-        Map<String, String> evalCache = (Map<String, String>) getInternalState(this.cache, "evalCache");
+        Map<String, String> evalCache = (Map<String, String>) ReflectionTestUtils.getField(this.cache, "evalCache");
         assertEquals(evalCache.size(), 1);
     }
 
@@ -71,7 +70,7 @@ public class InMemoryPolicyEvaluationCacheTest {
         String value = OBJECT_MAPPER.writeValueAsString(new DateTime());
         this.cache.set(key, value);
 
-        Map<String, String> evalCache = (Map<String, String>) getInternalState(this.cache, "evalCache");
+        Map<String, String> evalCache = (Map<String, String>) ReflectionTestUtils.getField(this.cache, "evalCache");
         assertEquals(evalCache.size(), 1);
     }
 
@@ -82,7 +81,7 @@ public class InMemoryPolicyEvaluationCacheTest {
         String value = OBJECT_MAPPER.writeValueAsString(new DateTime());
         this.cache.set(key, value);
 
-        Map<String, String> evalCache = (Map<String, String>) getInternalState(this.cache, "evalCache");
+        Map<String, String> evalCache = (Map<String, String>) ReflectionTestUtils.getField(this.cache, "evalCache");
         assertEquals(evalCache.size(), 1);
     }
 
@@ -93,7 +92,7 @@ public class InMemoryPolicyEvaluationCacheTest {
         String value = OBJECT_MAPPER.writeValueAsString(new DateTime());
         this.cache.set(key, value);
 
-        Map<String, String> evalCache = (Map<String, String>) getInternalState(this.cache, "evalCache");
+        Map<String, String> evalCache = (Map<String, String>) ReflectionTestUtils.getField(this.cache, "evalCache");
         assertEquals(evalCache.size(), 1);
     }
 

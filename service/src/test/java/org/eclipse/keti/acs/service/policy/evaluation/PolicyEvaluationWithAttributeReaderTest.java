@@ -19,7 +19,6 @@
 package org.eclipse.keti.acs.service.policy.evaluation;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anySetOf;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -28,20 +27,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.keti.acs.PolicyContextResolver;
 import org.eclipse.keti.acs.attribute.readers.AttributeReaderFactory;
 import org.eclipse.keti.acs.attribute.readers.AttributeRetrievalException;
@@ -64,6 +49,20 @@ import org.eclipse.keti.acs.service.policy.validation.PolicySetValidator;
 import org.eclipse.keti.acs.service.policy.validation.PolicySetValidatorImpl;
 import org.eclipse.keti.acs.zone.management.dao.ZoneEntity;
 import org.eclipse.keti.acs.zone.resolver.ZoneResolver;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ContextConfiguration(
         classes = { GroovyConditionCache.class, GroovyConditionShell.class, PolicySetValidatorImpl.class })
@@ -105,9 +104,9 @@ public class PolicyEvaluationWithAttributeReaderTest extends AbstractTestNGSprin
     public void setupMethod() throws Exception {
         this.evaluationService = new PolicyEvaluationServiceImpl();
         MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(this.policyMatcher, "attributeReaderFactory", this.attributeReaderFactory);
-        Whitebox.setInternalState(this.evaluationService, "policyMatcher", this.policyMatcher);
-        Whitebox.setInternalState(this.evaluationService, "policySetValidator", this.policySetValidator);
+        ReflectionTestUtils.setField(this.policyMatcher, "attributeReaderFactory", this.attributeReaderFactory);
+        ReflectionTestUtils.setField(this.evaluationService, "policyMatcher", this.policyMatcher);
+        ReflectionTestUtils.setField(this.evaluationService, "policySetValidator", this.policySetValidator);
         when(this.zoneResolver.getZoneEntityOrFail()).thenReturn(new ZoneEntity(0L, "testzone"));
         when(this.cache.get(any(PolicyEvaluationRequestCacheKey.class))).thenReturn(null);
         when(this.attributeReaderFactory.getResourceAttributeReader()).thenReturn(this.externalResourceAttributeReader);
@@ -130,7 +129,7 @@ public class PolicyEvaluationWithAttributeReaderTest extends AbstractTestNGSprin
         BaseSubject testSubject = new BaseSubject(SUBJECT_IDENTIFIER, subjectAttributes);
 
         when(this.externalResourceAttributeReader.getAttributes(anyString())).thenReturn(testResource.getAttributes());
-        when(this.externalSubjectAttributeReader.getAttributesByScope(anyString(), anySetOf(Attribute.class)))
+        when(this.externalSubjectAttributeReader.getAttributesByScope(anyString(), any()))
                 .thenReturn(testSubject.getAttributes());
 
         PolicyEvaluationResult evalResult = this.evaluationService

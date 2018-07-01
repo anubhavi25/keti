@@ -18,19 +18,19 @@
 
 package org.eclipse.keti.acs.policy.evaluation.cache;
 
-import org.eclipse.keti.acs.rest.PolicyEvaluationRequestV1;
-import org.testng.annotations.Test;
-
-import java.util.LinkedHashSet;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import static org.eclipse.keti.acs.testutils.XFiles.AGENT_MULDER;
 import static org.eclipse.keti.acs.testutils.XFiles.XFILES_ID;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
+
+import java.util.LinkedHashSet;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.eclipse.keti.acs.rest.PolicyEvaluationRequestV1;
+import org.testng.annotations.Test;
 
 public class PolicyEvaluationRequestCacheKeyTest {
     public static final String ZONE_NAME = "testzone1";

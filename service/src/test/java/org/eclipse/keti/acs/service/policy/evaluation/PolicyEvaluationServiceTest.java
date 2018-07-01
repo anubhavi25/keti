@@ -35,25 +35,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.keti.acs.PolicyContextResolver;
 import org.eclipse.keti.acs.commons.policy.condition.groovy.GroovyConditionCache;
 import org.eclipse.keti.acs.commons.policy.condition.groovy.GroovyConditionShell;
@@ -77,6 +58,25 @@ import org.eclipse.keti.acs.service.policy.validation.PolicySetValidatorImpl;
 import org.eclipse.keti.acs.utils.JsonUtils;
 import org.eclipse.keti.acs.zone.management.dao.ZoneEntity;
 import org.eclipse.keti.acs.zone.resolver.ZoneResolver;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Unit tests for PolicyEvaluationService. Uses mocks, no external dependencies.
@@ -127,7 +127,7 @@ public class PolicyEvaluationServiceTest extends AbstractTestNGSpringContextTest
     @BeforeMethod
     public void setupMethod() throws Exception {
         this.evaluationService = new PolicyEvaluationServiceImpl();
-        Whitebox.setInternalState(this.evaluationService, "policySetValidator", this.policySetValidator);
+        ReflectionTestUtils.setField(this.evaluationService, "policySetValidator", this.policySetValidator);
         MockitoAnnotations.initMocks(this);
         when(this.zoneResolver.getZoneEntityOrFail()).thenReturn(new ZoneEntity(0L, "testzone"));
         when(this.cache.get(any(PolicyEvaluationRequestCacheKey.class))).thenReturn(null);
@@ -266,8 +266,10 @@ public class PolicyEvaluationServiceTest extends AbstractTestNGSpringContextTest
     @Test(dataProvider = "policyDataProvider")
     public void testEvaluateWithPolicyWithCacheSetException(final File inputPolicy, final Effect effect)
             throws JsonParseException, JsonMappingException, IOException {
-        Mockito.doThrow(new RuntimeException()).when(this.cache)
-                .set(Mockito.any(PolicyEvaluationRequestCacheKey.class), Mockito.any(PolicyEvaluationResult.class));
+        Mockito.doAnswer(invocation -> {
+            throw new RuntimeException();
+        }).when(this.cache)
+               .set(Mockito.any(PolicyEvaluationRequestCacheKey.class), Mockito.any(PolicyEvaluationResult.class));
         testEvaluateWithPolicy(inputPolicy, effect);
     }
 

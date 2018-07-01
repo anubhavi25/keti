@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.keti.acs.zone.management.dao.ZoneEntity;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -34,8 +35,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import org.eclipse.keti.acs.zone.management.dao.ZoneEntity;
 
 public class GraphMigrationManagerTest {
 

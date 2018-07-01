@@ -23,15 +23,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.util.ReflectionTestUtils;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
 import org.eclipse.keti.acs.commons.policy.condition.ConditionScript;
 import org.eclipse.keti.acs.commons.policy.condition.ConditionShell;
 import org.eclipse.keti.acs.commons.policy.condition.groovy.GroovyConditionCache;
@@ -40,6 +31,14 @@ import org.eclipse.keti.acs.model.Condition;
 import org.eclipse.keti.acs.model.Policy;
 import org.eclipse.keti.acs.model.PolicySet;
 import org.eclipse.keti.acs.utils.JsonUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 /**
  *

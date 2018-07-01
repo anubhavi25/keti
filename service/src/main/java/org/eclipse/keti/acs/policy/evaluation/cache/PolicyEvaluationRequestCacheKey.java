@@ -22,7 +22,6 @@ import java.util.LinkedHashSet;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-
 import org.eclipse.keti.acs.rest.PolicyEvaluationRequestV1;
 
 public class PolicyEvaluationRequestCacheKey {

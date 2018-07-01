@@ -23,7 +23,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
 import org.mockito.Mockito;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -41,14 +41,14 @@ public class GraphMigrationRollbackTest {
         this.resourceMigrationManager = Mockito.mock(ResourceMigrationManager.class);
         this.subjectMigrationManager = Mockito.mock(SubjectMigrationManager.class);
 
-        Whitebox.setInternalState(this.graphMigrationManager, "resourceHierarchicalRepository",
-                this.resourceHierarchicalRepository);
-        Whitebox.setInternalState(this.graphMigrationManager, "subjectHierarchicalRepository",
+        ReflectionTestUtils.setField(this.graphMigrationManager, "resourceHierarchicalRepository",
+                                     this.resourceHierarchicalRepository);
+        ReflectionTestUtils.setField(this.graphMigrationManager, "subjectHierarchicalRepository",
                 this.subjectHierarchicalRepository);
 
-        Whitebox.setInternalState(this.graphMigrationManager, "resourceMigrationManager",
+        ReflectionTestUtils.setField(this.graphMigrationManager, "resourceMigrationManager",
                 this.resourceMigrationManager);
-        Whitebox.setInternalState(this.graphMigrationManager, "subjectMigrationManager",
+        ReflectionTestUtils.setField(this.graphMigrationManager, "subjectMigrationManager",
                 this.subjectMigrationManager);
     }
 

@@ -22,22 +22,6 @@ import static org.mockito.Mockito.mock;
 
 import java.util.List;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import org.eclipse.keti.acs.SpringSecurityPolicyContextResolver;
 import org.eclipse.keti.acs.attribute.cache.AttributeCacheFactory;
 import org.eclipse.keti.acs.attribute.connector.management.AttributeConnectorServiceImpl;
@@ -62,6 +46,21 @@ import org.eclipse.keti.acs.zone.management.dao.ZoneEntity;
 import org.eclipse.keti.acs.zone.management.dao.ZoneRepository;
 import org.eclipse.keti.acs.zone.resolver.SpringSecurityZoneResolver;
 import org.eclipse.keti.acs.zone.resolver.ZoneResolver;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 @Test
 @TestPropertySource("classpath:application.properties")

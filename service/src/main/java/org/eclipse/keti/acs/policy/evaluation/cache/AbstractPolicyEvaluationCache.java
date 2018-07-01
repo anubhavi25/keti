@@ -30,6 +30,10 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.eclipse.keti.acs.attribute.connector.management.AttributeConnectorService;
+import org.eclipse.keti.acs.privilege.management.dao.ResourceEntity;
+import org.eclipse.keti.acs.privilege.management.dao.SubjectEntity;
+import org.eclipse.keti.acs.rest.PolicyEvaluationResult;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Minutes;
@@ -37,11 +41,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import org.eclipse.keti.acs.attribute.connector.management.AttributeConnectorService;
-import org.eclipse.keti.acs.privilege.management.dao.ResourceEntity;
-import org.eclipse.keti.acs.privilege.management.dao.SubjectEntity;
-import org.eclipse.keti.acs.rest.PolicyEvaluationResult;
 
 enum EntityType {
 

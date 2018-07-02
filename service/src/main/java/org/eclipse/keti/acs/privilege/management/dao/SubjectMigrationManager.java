@@ -47,7 +47,7 @@ public class SubjectMigrationManager {
             List<SubjectEntity> subjectListToSave = pageOfSubjects.getContent();
             numOfSubjectsSaved += pageOfSubjects.getNumberOfElements();
             subjectListToSave.forEach(item -> {
-                item.setId(0);
+                item.setId(0L);
                 LOGGER.trace("doSubjectMigration Subject-Id: {} Zone-name: {} Zone-id: {}", item.getSubjectIdentifier(),
                         item.getZone().getName(), item.getZone().getId());
             });

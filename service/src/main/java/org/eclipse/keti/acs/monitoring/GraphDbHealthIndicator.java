@@ -18,7 +18,8 @@
 
 package org.eclipse.keti.acs.monitoring;
 
-import org.eclipse.keti.acs.privilege.management.dao.GraphMigrationManager;
+import static org.eclipse.keti.acs.privilege.management.dao.GraphMigrationManagerKt.INITIAL_ATTRIBUTE_GRAPH_VERSION;
+
 import org.eclipse.keti.acs.privilege.management.dao.GraphResourceRepository;
 import org.janusgraph.core.JanusGraphConfigurationException;
 import org.janusgraph.core.QueryException;
@@ -68,7 +69,7 @@ public class GraphDbHealthIndicator implements HealthIndicator {
         try {
             LOGGER.debug("Checking graph database status");
             if (this.resourceHierarchicalRepository
-                    .checkVersionVertexExists(GraphMigrationManager.INITIAL_ATTRIBUTE_GRAPH_VERSION)) {
+                    .checkVersionVertexExists(INITIAL_ATTRIBUTE_GRAPH_VERSION)) {
                 healthCode = AcsMonitoringUtilities.HealthCode.AVAILABLE;
             }
         } catch (QueryException e) {

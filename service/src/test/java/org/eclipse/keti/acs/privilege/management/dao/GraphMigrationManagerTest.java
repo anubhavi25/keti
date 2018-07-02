@@ -18,6 +18,7 @@
 
 package org.eclipse.keti.acs.privilege.management.dao;
 
+import static org.eclipse.keti.acs.privilege.management.dao.GraphMigrationManagerKt.PAGE_SIZE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Matchers.any;
@@ -137,9 +138,11 @@ public class GraphMigrationManagerTest {
                 });
 
         new ResourceMigrationManager().doResourceMigration(resourceRepository,
-                resourceHierarchicalRepository, GraphMigrationManager.PAGE_SIZE);
+                                                           resourceHierarchicalRepository,
+                                                           PAGE_SIZE);
         new SubjectMigrationManager().doSubjectMigration(subjectRepository,
-                subjectHierarchicalRepository, GraphMigrationManager.PAGE_SIZE);
+                                                         subjectHierarchicalRepository,
+                                                         PAGE_SIZE);
 
         // Verify that the data from non-graph repo has been copied over to graph-repo, post-migration.
         assertThat(this.resourceRepository.findAll().size(), equalTo(2));

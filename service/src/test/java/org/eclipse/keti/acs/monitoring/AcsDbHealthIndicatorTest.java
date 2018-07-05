@@ -18,6 +18,10 @@
 
 package org.eclipse.keti.acs.monitoring;
 
+import static org.eclipse.keti.acs.monitoring.AcsDbHealthIndicatorKt.DB_DESCRIPTION;
+import static org.eclipse.keti.acs.monitoring.AcsMonitoringUtilitiesKt.CODE_KEY;
+import static org.eclipse.keti.acs.monitoring.AcsMonitoringUtilitiesKt.DESCRIPTION_KEY;
+
 import org.eclipse.keti.acs.privilege.management.dao.GraphMigrationManager;
 import org.mockito.Mockito;
 import org.springframework.boot.actuate.health.Status;
@@ -37,18 +41,20 @@ public class AcsDbHealthIndicatorTest {
 
     @Test(dataProvider = "statuses")
     public void testHealth(final AcsMonitoringRepository acsMonitoringRepository, final Status status,
-            final AcsMonitoringUtilities.HealthCode healthCode, final GraphMigrationManager graphMigrationManager)
+            final HealthCode healthCode, final GraphMigrationManager graphMigrationManager)
             throws Exception {
         AcsDbHealthIndicator acsDbHealthIndicator = new AcsDbHealthIndicator(acsMonitoringRepository);
         acsDbHealthIndicator.setMigrationManager(graphMigrationManager);
         Assert.assertEquals(status, acsDbHealthIndicator.health().getStatus());
-        Assert.assertEquals(AcsDbHealthIndicator.DESCRIPTION,
-                acsDbHealthIndicator.health().getDetails().get(AcsMonitoringUtilities.DESCRIPTION_KEY));
-        if (healthCode == AcsMonitoringUtilities.HealthCode.AVAILABLE) {
-            Assert.assertFalse(acsDbHealthIndicator.health().getDetails().containsKey(AcsMonitoringUtilities.CODE_KEY));
+        Assert.assertEquals(DB_DESCRIPTION,
+                            acsDbHealthIndicator.health().getDetails().get(
+                                    DESCRIPTION_KEY));
+        if (healthCode == HealthCode.AVAILABLE) {
+            Assert.assertFalse(acsDbHealthIndicator.health().getDetails().containsKey(
+                    CODE_KEY));
         } else {
             Assert.assertEquals(healthCode,
-                    acsDbHealthIndicator.health().getDetails().get(AcsMonitoringUtilities.CODE_KEY));
+                    acsDbHealthIndicator.health().getDetails().get(CODE_KEY));
         }
     }
 
@@ -59,25 +65,25 @@ public class AcsDbHealthIndicatorTest {
         ReflectionTestUtils.setField(happyMigrationManager, IS_MIGRATION_COMPLETE_FIELD_NAME, true);
         ReflectionTestUtils.setField(sadMigrationManager, IS_MIGRATION_COMPLETE_FIELD_NAME, false);
 
-        return new Object[][] { new Object[] { mockDbWithUp(), Status.UP, AcsMonitoringUtilities.HealthCode.AVAILABLE,
+        return new Object[][] { new Object[] { mockDbWithUp(), Status.UP, HealthCode.AVAILABLE,
                 happyMigrationManager },
 
                 { mockDbWithException(new TransientDataAccessResourceException("")), Status.DOWN,
-                        AcsMonitoringUtilities.HealthCode.UNAVAILABLE, happyMigrationManager },
+                        HealthCode.UNAVAILABLE, happyMigrationManager },
 
                 { mockDbWithException(new QueryTimeoutException("")), Status.DOWN,
-                        AcsMonitoringUtilities.HealthCode.UNAVAILABLE, happyMigrationManager },
+                        HealthCode.UNAVAILABLE, happyMigrationManager },
 
                 { mockDbWithException(new DataSourceLookupFailureException("")), Status.DOWN,
-                        AcsMonitoringUtilities.HealthCode.UNREACHABLE, happyMigrationManager },
+                        HealthCode.UNREACHABLE, happyMigrationManager },
 
                 { mockDbWithException(new PermissionDeniedDataAccessException("", null)), Status.DOWN,
-                        AcsMonitoringUtilities.HealthCode.MISCONFIGURATION, happyMigrationManager },
+                        HealthCode.MISCONFIGURATION, happyMigrationManager },
 
                 { mockDbWithException(new ConcurrencyFailureException("")), Status.DOWN,
-                        AcsMonitoringUtilities.HealthCode.ERROR, happyMigrationManager },
+                        HealthCode.ERROR, happyMigrationManager },
 
-                { mockDbWithUp(), Status.DOWN, AcsMonitoringUtilities.HealthCode.MIGRATION_INCOMPLETE,
+                { mockDbWithUp(), Status.DOWN, HealthCode.MIGRATION_INCOMPLETE,
                         sadMigrationManager }, };
     }
 

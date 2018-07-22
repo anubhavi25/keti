@@ -34,6 +34,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.keti.acs.PolicyContextResolver;
 import org.eclipse.keti.acs.commons.policy.condition.groovy.GroovyConditionCache;
 import org.eclipse.keti.acs.commons.policy.condition.groovy.GroovyConditionShell;
@@ -47,6 +50,7 @@ import org.eclipse.keti.acs.privilege.management.PrivilegeManagementService;
 import org.eclipse.keti.acs.rest.BaseResource;
 import org.eclipse.keti.acs.rest.BaseSubject;
 import org.eclipse.keti.acs.rest.PolicyEvaluationRequestV1;
+import org.eclipse.keti.acs.rest.PolicyEvaluationRequestV1Kt;
 import org.eclipse.keti.acs.rest.PolicyEvaluationResult;
 import org.eclipse.keti.acs.service.policy.admin.PolicyManagementService;
 import org.eclipse.keti.acs.service.policy.matcher.MatchResult;
@@ -72,10 +76,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Unit tests for PolicyEvaluationService. Uses mocks, no external dependencies.
@@ -390,7 +390,7 @@ public class PolicyEvaluationServiceTest extends AbstractTestNGSpringContextTest
     }
 
     private Object[] filterTwoPolisySetsByEmptyList(final List<PolicySet> twoPolicySets) {
-        return new Object[] { twoPolicySets, PolicyEvaluationRequestV1.EMPTY_POLICY_EVALUATION_ORDER };
+        return new Object[] { twoPolicySets, PolicyEvaluationRequestV1Kt.getEMPTY_POLICY_EVALUATION_ORDER() };
     }
 
     private Object[] filterTwoPolicySetsByByNonexistentPolicySet(final List<PolicySet> twoPolicySets) {
@@ -435,7 +435,7 @@ public class PolicyEvaluationServiceTest extends AbstractTestNGSpringContextTest
     }
 
     private Object[] filterOnePolicySetByEmptyEvaluationOrder(final List<PolicySet> onePolicySet) {
-        return new Object[] { onePolicySet, PolicyEvaluationRequestV1.EMPTY_POLICY_EVALUATION_ORDER,
+        return new Object[] { onePolicySet, PolicyEvaluationRequestV1Kt.getEMPTY_POLICY_EVALUATION_ORDER(),
                 onePolicySet.stream().collect(Collectors.toCollection(LinkedHashSet::new)) };
     }
 
@@ -477,11 +477,12 @@ public class PolicyEvaluationServiceTest extends AbstractTestNGSpringContextTest
     }
 
     private Object[] requestEvaluationWithOnePolicySetAndEmptyPriorityList(final List<PolicySet> onePolicySet) {
-        return new Object[] { onePolicySet, PolicyEvaluationRequestV1.EMPTY_POLICY_EVALUATION_ORDER, Effect.DENY };
+        return new Object[] { onePolicySet,
+                              PolicyEvaluationRequestV1Kt.getEMPTY_POLICY_EVALUATION_ORDER(), Effect.DENY };
     }
 
     private Object[] requestEvaluationWithEmptyPolicySetsListAndEmptyPriorityList() {
-        return new Object[] { Collections.emptyList(), PolicyEvaluationRequestV1.EMPTY_POLICY_EVALUATION_ORDER,
+        return new Object[] { Collections.emptyList(), PolicyEvaluationRequestV1Kt.getEMPTY_POLICY_EVALUATION_ORDER(),
                 Effect.NOT_APPLICABLE };
     }
 

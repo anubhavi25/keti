@@ -16,25 +16,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.eclipse.keti.acs.commons.policy.condition
+package org.eclipse.keti.acs.commons.policy.condition.groovy
 
-/**
- * Represents a shell capable of compiling a policy condition.
- *
- * @author acs-engineers@ge.com
- */
-@FunctionalInterface
-interface ConditionShell {
+import org.eclipse.keti.acs.commons.policy.condition.ConditionScript
+import org.mockito.Mockito
+import org.testng.Assert
+import org.testng.annotations.Test
 
-    /**
-     * Validates the script & generates condition script object.
-     *
-     * @param script
-     * the policy condition string
-     * @return a Script object instance capable of executing the policy condition.
-     * @throws ConditionParsingException
-     * on validation error
-     */
-    @Throws(ConditionParsingException::class)
-    fun parse(script: String?): ConditionScript
+class GroovyConditionCacheTest {
+
+    @Test
+    fun testPutGetAndRemove() {
+        val cache = GroovyConditionCache()
+        val compiledScript = Mockito.mock(ConditionScript::class.java)
+        val testScript = "1 == 1"
+        cache.put(testScript, compiledScript)
+        Assert.assertEquals(cache[testScript], compiledScript)
+        cache.remove(testScript)
+        Assert.assertNull(cache[testScript])
+    }
+
 }

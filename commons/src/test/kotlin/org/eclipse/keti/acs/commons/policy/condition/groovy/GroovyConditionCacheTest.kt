@@ -35,5 +35,4 @@ class GroovyConditionCacheTest {
         cache.remove(testScript)
         Assert.assertNull(cache[testScript])
     }
-
 }

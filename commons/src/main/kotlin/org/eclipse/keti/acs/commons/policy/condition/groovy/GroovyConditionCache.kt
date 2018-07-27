@@ -41,5 +41,4 @@ class GroovyConditionCache {
     fun remove(script: String) {
         this.cache.remove(script)
     }
-
 }

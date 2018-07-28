@@ -76,15 +76,15 @@ class AccessControlService @Autowired constructor(
      * is configured explicitly as a custom filter in security-config.xml.
      */
     @Bean
-    fun filterRegistrationBean(): FilterRegistrationBean {
-        val filterRegistrationBean = FilterRegistrationBean()
+    fun filterRegistrationBean(): FilterRegistrationBean<AcsRequestEnrichingFilter> {
+        val filterRegistrationBean = FilterRegistrationBean<AcsRequestEnrichingFilter>()
         filterRegistrationBean.isEnabled = false
         filterRegistrationBean.filter = this.acsRequestEnrichingFilter
         return filterRegistrationBean
     }
 
     @Bean
-    fun monitoringFilterRegistrationBean(): FilterRegistrationBean {
+    fun monitoringFilterRegistrationBean(): FilterRegistrationBean<ManagementSecurityRoleFilter> {
         val filterRegistrationBean = FilterRegistrationBean(this.managementSecurityRoleFilter)
         filterRegistrationBean.addUrlPatterns("/health*")
         filterRegistrationBean.order = 1
